@@ -1,4 +1,7 @@
-use std::str::FromStr;
+use std::{
+    fmt::{self, Display, Formatter},
+    str::FromStr,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum VtecSignificance {
@@ -26,5 +29,21 @@ impl FromStr for VtecSignificance {
 
             _ => return Err(()),
         })
+    }
+}
+
+impl Display for VtecSignificance {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let string = match self {
+            Self::Warning => "Warning",
+            Self::Watch => "Watch",
+            Self::Advisory => "Advisory",
+            Self::Statement => "Statement",
+            Self::Forecast => "Forecast",
+            Self::Outlook => "Outlook",
+            Self::Synopsis => "Synopsis",
+        };
+
+        f.write_str(string)
     }
 }

@@ -1,4 +1,7 @@
-use std::str::FromStr;
+use std::{
+    fmt::{self, Display, Formatter},
+    str::FromStr,
+};
 
 use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use thiserror::Error;
@@ -145,5 +148,25 @@ impl FromStr for PrimaryVtec {
             start_date,
             end_date,
         })
+    }
+}
+
+impl Display for PrimaryVtec {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{} {} #{:04}",
+            self.phenomenon.name(),
+            self.significance,
+            self.tracking_number
+        )
+    }
+}
+
+impl PrimaryVtec {
+    #[inline]
+    #[must_use]
+    pub fn description(&self) -> String {
+        self.phenomenon.description(self.significance)
     }
 }
